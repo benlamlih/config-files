@@ -1,0 +1,44 @@
+[
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      // put key-bindings here if you want them to work in normal & visual mode
+      "tab": "pane::ActivateNextItem",
+      "space l a": "editor::ToggleCodeActions",
+      "space f m": "editor::Format",
+      "space r a": "editor::Rename",
+      "space l l": "diagnostics::Deploy",
+      "space o p": "editor::OpenFile",
+      "space f f": "file_finder::Toggle",
+      "space f w": "pane::DeploySearch",
+      "space o": "tab_switcher::Toggle",
+      "space x": "pane::CloseActiveItem",
+      "space p": "outline::Toggle",
+      "space v": "editor::GoToDefinitionSplit",
+      "space c": "editor::ToggleComments",
+      "space t": "workspace::NewTerminal",
+      "ctrl-n": "workspace::ToggleLeftDock",
+      "g r": "editor::FindAllReferences"
+    }
+  },
+  {
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      // "shift-y": ["workspace::SendKeystrokes", "y $"] // use nvim's Y behavior
+    }
+  },
+  {
+    "context": "vim_mode == insert",
+    "bindings": {
+      // "j k": "vim::NormalBefore" // remap jk in insert mode to escape.
+    }
+  },
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      // put key-bindings here (in addition to above) if you want them to
+      // work when no editor exists
+      // "space f": "file_finder::Toggle"
+    }
+  }
+]
