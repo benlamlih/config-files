@@ -64,7 +64,7 @@ vim.opt.expandtab = true
 vim.wo.relativenumber = true
 
 -- Set up scroll offsets
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 15
 
 -- Close nvimtree when quitting the last buffer
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -72,6 +72,17 @@ vim.api.nvim_create_autocmd("BufEnter", {
     if #vim.api.nvim_list_wins() == 1 and vim.bo.filetype == "NvimTree" then
       vim.cmd "quit!"
     end
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "NvimTree",
+  callback = function()
+    local api = require "nvim-tree.api"
+
+    -- Add custom keymaps
+    vim.keymap.set("n", "v", api.node.open.vertical, { desc = "Open file in vertical split", buffer = true })
+    vim.keymap.set("n", "h", api.node.open.horizontal, { desc = "Open file in horizontal split", buffer = true })
   end,
 })
 

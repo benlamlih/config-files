@@ -53,6 +53,14 @@ map("n", "<leader>ml", ":MetalsToggleLogs<CR>", { desc = "Show Metals Logs" })
 map("n", "<leader>mc", ":Telescope metals commands<CR>", { desc = "Metals Commands" })
 map("n", "<leader>gr", ":Telescope lsp_references<CR>", { desc = "Find References" })
 
+-- Resize current window width
+map("n", "<C-b>", "<C-w>>", { desc = "Increase window width" }) -- Make buffer wider
+map("n", "<C-g>", "<C-w><", { desc = "Decrease window width" }) -- Make buffer narrower
+
+-- Database ui keymaps
+map("n", "<leader>dt", ":DBUI<CR>", { desc = "Open drawer with available connections" })
+map("n", "<C-t>", ":DBUIToggle<CR>", { desc = "Toggle the drawer" })
+
 -- LSP Diagnostic keymaps
 map("n", "<leader>lf", function()
   vim.diagnostic.open_float { border = "rounded" }
