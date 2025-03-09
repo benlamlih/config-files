@@ -24,6 +24,33 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+local frontend_servers = { "tailwindcss", "eslint" }
+
+for _, lsp in ipairs(frontend_servers) do
+  lspconfig[lsp].setup {
+    on_attach = nvlsp.on_attach,
+    on_init = nvlsp.on_init,
+    capabilities = nvlsp.capabilities,
+  }
+end
+
+lspconfig.kotlin_language_server.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+  filetypes = { "kotlin" },
+  root_dir = lspconfig.util.root_pattern("build.gradle", "pom.xml", ".git"),
+  settings = {
+    kotlin = {
+      compiler = {
+        jvm = {
+          target = "21",
+        },
+      },
+    },
+  },
+}
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "java",
   callback = function()
@@ -112,20 +139,26 @@ lspconfig.ts_ls.setup {
 -- Null-LS Configuration for Formatters and Linters
 local b = null_ls.builtins
 local sources = {
-  b.formatting.prettier.with {
+  b.formatting.prettierd.with {
     command = "node_modules/.bin/prettier",
-    filetypes = { "html", "markdown", "css", "typescript", "vue", "json" },
+    filetypes = { "html", "markdown", "css", "typescript", "vue", "json", "ts", "javascript", "js" },
   },
   null_ls.builtins.formatting.black,
+  -- Added Go formatters
+  null_ls.builtins.formatting.gofumpt,
+  null_ls.builtins.formatting.goimports, -- Organizes imports
+  null_ls.builtins.formatting.goimports_reviser, -- Sorts and groups imports
+  null_ls.builtins.formatting.golines,
 }
 
 -- Setup Null-LS with Formatting on Save
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
 null_ls.setup {
   debug = true,
   sources = sources,
   on_attach = function(client, bufnr)
     if client.supports_method "textDocument/formatting" then
-      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = augroup,
@@ -193,6 +226,24 @@ dap.configurations.scala = {
       args = {}, -- Your application arguments
       jvmOptions = {}, -- Any JVM options you need
       env = {}, -- Environment variables
+    },
+  },
+}
+
+lspconfig.gopls.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+  cmd = { "gopls" },
+  filetypes = { "go", "gomod", "gowork", "gotmpl" },
+  root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+  settings = {
+    gopls = {
+      completeUnimported = true,
+      usePlaceholders = true,
+      analyses = {
+        unusedparams = true,
+      },
     },
   },
 }

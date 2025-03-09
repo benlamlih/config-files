@@ -7,7 +7,8 @@ local M = {}
 
 M.base46 = {
   theme = "catppuccin",
-  transparency = true,
+  -- This has to be set to false, if you want the themes to work.
+  transparency = false,
 
   hl_override = {
     Comment = { italic = true },

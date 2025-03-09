@@ -5,6 +5,9 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
+-- Use Telescope for finding References
+map("n", "gr", ":Telescope lsp_references<CR>", { desc = "Find References with Telescope" })
+
 -- Tmux navigation mappings
 map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", { desc = "Window left" })
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", { desc = "Window right" })
@@ -65,3 +68,14 @@ map("n", "<C-t>", ":DBUIToggle<CR>", { desc = "Toggle the drawer" })
 map("n", "<leader>lf", function()
   vim.diagnostic.open_float { border = "rounded" }
 end, { desc = "Floating Diagnostic" })
+
+-- Go Struct Tags Keymaps
+map("n", "<leader>gsj", "<cmd> GoTagAdd json <CR>", { desc = "Add JSON struct tags" })
+map("n", "<leader>gsy", "<cmd> GoTagAdd yaml <CR>", { desc = "Add YAML struct tags" })
+map("n", "<leader>gie", "<cmd> GoIfErr <CR>", { desc = "Generate if err != nil statement" })
+map("n", "<leader>gii", "<cmd> GoImpl <CR>", { desc = "Implement interface for struct under cursor" })
+map("n", "<leader>gir", ":GoImpl ", { desc = "Manually define Go interface implementation" })
+
+-- Diffview
+map("n", "<leader>dm", ":DiffviewOpen origin/develop...HEAD<CR>", { desc = "Git diff with main branch" })
+map("n", "<leader>dh", ":DiffviewOpen HEAD<CR>", { desc = "Git diff with staged changes" })

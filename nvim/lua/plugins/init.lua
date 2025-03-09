@@ -1,4 +1,14 @@
 return {
+  -- Diff view
+  {
+    "sindrets/diffview.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" }, -- Required dependency
+    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" }, -- Lazy-load on these commands
+    config = function()
+      require("diffview").setup()
+    end,
+  },
+
   -- Formatter
   {
     "stevearc/conform.nvim",
@@ -12,6 +22,55 @@ return {
       require("configs.jdtls").setup()
     end,
   },
+
+  -- Typing Practice plugin
+  { "nvzone/volt", lazy = true },
+  {
+    "nvzone/minty",
+    cmd = { "Shades", "Huefy" },
+  },
+  {
+    "nvzone/typr",
+    dependencies = "nvzone/volt",
+    opts = {},
+    cmd = { "Typr", "TyprStats" },
+  },
+
+  -- Maybe try blink.cmp later instead of cmp
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   enabled = false,
+  -- },
+
+  -- Scala cmp
+  -- {
+  --   "saghen/blink.cmp",
+  --   ft = { "scala" },
+  --   lazy = false, -- lazy loading handled internally
+  --   dependencies = "rafamadriz/friendly-snippets",
+  --   version = "v0.*",
+  --   ---@module 'blink.cmp'
+  --   ---@type blink.cmp.Config
+  --   opts = {
+  --     -- keymap = {
+  --     --   preset = "enter",
+  --     --   ["<Tab>"] = { "select_next", "fallback" },
+  --     --   ["<S-Tab"] = { "select_prev", "fallback" },
+  --     -- },
+  --     appearance = {
+  --       -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+  --       -- Useful for when your theme doesn't support blink.cmp
+  --       -- will be removed in a future release
+  --       use_nvim_cmp_as_default = true,
+  --       nerd_font_variant = "mono",
+  --     },
+  --     sources = {
+  --       default = { "lsp", "path", "snippets", "buffer" },
+  --     },
+  --     signature = { enabled = true },
+  --   },
+  --   opts_extend = { "sources.default" },
+  -- },
 
   -- Tmux navigation
   {
@@ -93,6 +152,14 @@ return {
   {
     "mfussenegger/nvim-dap",
   },
+  {
+    "leoluz/nvim-dap-go",
+    ft = "go",
+    dependencies = "mfussenegger/nvim-dap",
+    config = function(_, opts)
+      require("dap-go").setup(opts)
+    end,
+  },
   { "nvim-neotest/nvim-nio" },
   {
     "rcarriga/nvim-dap-ui",
@@ -105,6 +172,23 @@ return {
     "theHamsta/nvim-dap-virtual-text",
     config = function()
       require("nvim-dap-virtual-text").setup()
+    end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
+  {
+    "olexsmir/gopher.nvim",
+    ft = "go",
+    config = function(_, opts)
+      require("gopher").setup(opts)
+    end,
+    build = function()
+      vim.cmd [[silent! GoInstallDeps]]
     end,
   },
 }
