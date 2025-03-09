@@ -1,0 +1,39 @@
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defsrc
+  ;; Example: 12 items in row 1
+  f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
+  ;; Example: 10 items in row 2
+  caps a s d f j k l ; 
+)
+
+(defalias
+  esc-only esc
+  a (tap-hold 30 200 a lsft)
+  s (tap-hold 30 200 s lalt)
+  d (tap-hold 30 200 d lctl)
+  f (tap-hold 30 200 f lmet)
+  j (tap-hold 30 200 j rmet)
+  k (tap-hold 30 200 k rctl)
+  l (tap-hold 30 200 l ralt)
+  ; (tap-hold 30 200 ; rsft)
+
+  ;; -- The key fix: fork with OR logic --
+  ;; Still haven't managed to make it work. Weirdly this works when i run the script manually, but not when run it from a service with launchctl.
+  ;; If shift-l OR alt-l is held => "|"
+  ;; Otherwise => "i"
+  ;; i (fork i (unicode "|") (lsft lalt))
+)
+
+(deflayer base
+  ;; Must match defsrc item count
+  brdn brup _ _ _ _ prev pp next mute vold volu
+  @esc-only @a @s @d @f @j @k @l @;
+)
+
+(deflayer fn
+  f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
+  @esc-only _ _ _ _ _ _ _ _ 
+)

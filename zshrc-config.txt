@@ -1,0 +1,115 @@
+export MANPAGER="nvim +Man!"
+
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$PATH:~/.local/bin"
+export MYPYPATH="/Users/benlamlih/.pyenv/versions/3.12.0/lib/python3.12/site-packages"
+# export PATH="/Users/benlamlih/Library/Python/3.9/bin:$PATH"
+# Adds pyenv to PATH and initializes it. This should be placed after system and Homebrew PATH adjustments
+# to ensure pyenv managed Pythons take precedence over others.
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(fzf --zsh)"
+eval "$(zoxide init --cmd cd zsh)"
+
+# alias vim to use neovim
+alias vim=nvim
+
+# alias to clear
+alias c=clear
+
+# alias fzf with nvim
+alias nf='fzf -m --preview="bat --color=always {}" --bind "enter:become(nvim {+})"'
+
+# alias fzf with better bat file preview
+alias f='fzf --preview="bat --color=always {}"'
+
+# Aliases
+alias ls='ls --color'
+alias vim='nvim'
+
+# bun completions
+[ -s "/Users/benlamlih/.bun/_bun" ] && source "/Users/benlamlih/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+eval "$(starship init zsh)"
+
+# thefuck
+eval $(thefuck --alias)
+eval $(thefuck --alias fk)
+
+
+# bat
+BAT_THEME="Catppuccin Mocha"
+
+# Set the directory we want to store zinit and plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+# Download Zinit, if it's not there yet
+if [ ! -d "$ZINIT_HOME" ]; then
+   mkdir -p "$(dirname $ZINIT_HOME)"
+   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+
+# Source/Load zinit
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Add in zsh plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
+
+
+# Add in snippets
+zinit snippet OMZL::git.zsh
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::archlinux
+zinit snippet OMZP::aws
+zinit snippet OMZP::kubectl
+zinit snippet OMZP::kubectx
+zinit snippet OMZP::command-not-found
+
+# Load completions
+autoload -Uz compinit && compinit -C -d ~/.zcompdump
+
+zinit cdreplay -q
+
+# Keybindings
+bindkey -e
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^[w' kill-region
+
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+# Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+
+export PATH=$PATH:~/scripts
+export PATH=$PATH:$(go env GOPATH)/bin
+export PATH=$PATH:$(go env GOPATH)/bin
+export PATH=$PATH:$(go env GOPATH)/bin
+export PATH=$PATH:$(go env GOPATH)/bin
+export PATH=$PATH:$(go env GOPATH)/bin
