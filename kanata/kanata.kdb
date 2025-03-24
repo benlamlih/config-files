@@ -3,10 +3,9 @@
 )
 
 (defsrc
-  ;; Example: 12 items in row 1
   f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
-  ;; Example: 10 items in row 2
-  caps a s d f j k l ; 
+  tab q w e r t y u i o p
+  caps a s d f g h j k l ;
 )
 
 (defalias
@@ -19,6 +18,7 @@
   k (tap-hold 30 200 k rctl)
   l (tap-hold 30 200 l ralt)
   ; (tap-hold 30 200 ; rsft)
+  q (tap-hold 30 200 q (layer-toggle nav))
 
   ;; -- The key fix: fork with OR logic --
   ;; Still haven't managed to make it work. Weirdly this works when i run the script manually, but not when run it from a service with launchctl.
@@ -28,12 +28,20 @@
 )
 
 (deflayer base
-  ;; Must match defsrc item count
   brdn brup _ _ _ _ prev pp next mute vold volu
-  @esc-only @a @s @d @f @j @k @l @;
+  _ @q _ _ _ _ _ _ _ _ _
+  @esc-only @a @s @d @f _ _ @j @k @l @;
 )
 
 (deflayer fn
   f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
-  @esc-only _ _ _ _ _ _ _ _ 
+  _ _ _ _ _ _ _ _ _ _ _
+  @esc-only _ _ _ _ _ _ _ _ _ _
 )
+
+(deflayer nav
+  _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ left down up right _ 
+)
+
